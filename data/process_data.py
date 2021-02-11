@@ -24,8 +24,9 @@ def clean_data(df):
     df = pd.concat([df, categories], axis = 1).drop_duplicates()
     return df
 
-#def save_data(df, database_filename):
-    #pass  
+def save_data(df, database_filename):
+    engine = create_engine('sqlite:///InsertDatabaseName.db')
+    df.to_sql('database_filename', engine, index=False)
 
 
 def main():
