@@ -23,8 +23,8 @@ from sqlalchemy import create_engine
 # load data from database
 engine = create_engine('sqlite:///InsertDatabaseName.db')
 df = pd.read_sql("SELECT * FROM InsertTableName", engine)
-X = df[['id', 'message', 'original', 'genre']]
-Y = df.drop(['id', 'message', 'original', 'genre'], axis = 1)
+X = df['message']
+Y = df.iloc[:,4:]
 
 
 # ### 2. Write a tokenization function to process your text data
@@ -33,7 +33,20 @@ Y = df.drop(['id', 'message', 'original', 'genre'], axis = 1)
 
 
 def tokenize(text):
-    pass
+    detected_urls = re.findall(url_regex, text)
+    for url in detected_urls:
+        text = text.replace(url, "urlplaceholder")
+
+    tokens = word_tokenize(text)
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
+    
 
 
 # ### 3. Build a machine learning pipeline
