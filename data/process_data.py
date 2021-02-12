@@ -18,7 +18,7 @@ def clean_data(df):
     row = categories.iloc[0].str.split('-', expand = True)
     categories.columns = list(row[0])
 
-
+    #convert first row value in categories clolumns to labels
     for column in categories:
         # set each value to be the last character of the string
         categories[column] = categories[column].str.split('-').str.get(-1)
