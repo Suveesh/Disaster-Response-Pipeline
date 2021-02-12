@@ -15,6 +15,12 @@
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine 
+from nltk.tokenize import word_tokenize
+from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 
 
 # In[ ]:
@@ -24,7 +30,7 @@ from sqlalchemy import create_engine
 engine = create_engine('sqlite:///InsertDatabaseName.db')
 df = pd.read_sql("SELECT * FROM InsertTableName", engine)
 X = df['message']
-Y = df.iloc[:,4:]
+y = df.iloc[:,4:]
 
 
 # ### 2. Write a tokenization function to process your text data
@@ -33,9 +39,7 @@ Y = df.iloc[:,4:]
 
 
 def tokenize(text):
-    detected_urls = re.findall(url_regex, text)
-    for url in detected_urls:
-        text = text.replace(url, "urlplaceholder")
+    text = X.values
 
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -55,7 +59,11 @@ def tokenize(text):
 # In[ ]:
 
 
-pipeline = 
+pipeline = Pipeline([
+        ('vect', CountVectorizer(tokenizer=tokenize)),
+        ('tfidf', TfidfTransformer()),
+        ('clf', RandomForestClassifier())
+    ])
 
 
 # ### 4. Train pipeline
@@ -63,6 +71,12 @@ pipeline =
 # - Train pipeline
 
 # In[ ]:
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+pipeline.fit(X_train, y_train)
+
+y_pred = pipeline.predict(X_test)
 
 
 
@@ -72,6 +86,10 @@ pipeline =
 # Report the f1 score, precision and recall for each output category of the dataset. You can do this by iterating through the columns and calling sklearn's `classification_report` on each.
 
 # In[ ]:
+target_names = y.columns
+print(classification_report(y_true, y_pred, target_names=target_names))
+
+
 
 
 
