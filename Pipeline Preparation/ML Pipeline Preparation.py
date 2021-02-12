@@ -21,6 +21,7 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 
 
 # In[ ]:
@@ -86,8 +87,9 @@ y_pred = pipeline.predict(X_test)
 # Report the f1 score, precision and recall for each output category of the dataset. You can do this by iterating through the columns and calling sklearn's `classification_report` on each.
 
 # In[ ]:
+
 target_names = y.columns
-print(classification_report(y_true, y_pred, target_names=target_names))
+print(classification_report(y_test, y_pred, target_names=target_names))
 
 
 
@@ -103,8 +105,7 @@ print(classification_report(y_true, y_pred, target_names=target_names))
 
 parameters = 
 
-cv = 
-
+cv = GridSearchCV(pipeline, param_grid=parameters)
 
 # ### 7. Test your model
 # Show the accuracy, precision, and recall of the tuned model.  
@@ -112,8 +113,12 @@ cv =
 # Since this project focuses on code quality, process, and  pipelines, there is no minimum performance metric needed to pass. However, make sure to fine tune your models for accuracy, precision and recall to make your project stand out - especially for your portfolio!
 
 # In[ ]:
+cv.fit(X_train, y_train)
+
+y_pred = cv.predict(x_train)
 
 
+print(classification_report(y_test, y_pred, target_names=target_names))
 
 
 
