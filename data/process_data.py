@@ -2,6 +2,7 @@ import sys
 import python as pd
 import numpy as np
 from sqlalchemy import create_engine
+import re
 
 
 def load_data(messages_filepath, categories_filepath):
@@ -12,16 +13,30 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+
     categories = df['categories'].str.split(';', expand = True)
     row = categories.iloc[0].str.split('-', expand = True)
     categories.columns = list(row[0])
+
+
     for column in categories:
-    # set each value to be the last character of the string
-    categories[column] = categories[column].str.split('-').str.get(-1)
-    # convert column from string to numeric
-    categories[column] = categories[column].astype(int)
+        # set each value to be the last character of the string
+        categories[column] = categories[column].str.split('-').str.get(-1)
+        # convert column from string to numeric
+        categories[column] = categories[column].astype(int)
+
+    #Drop Duplicates
     df.drop(['categories'], axis = 1, inplace = True)
     df = pd.concat([df, categories], axis = 1).drop_duplicates()
+
+    #Normalize the text data in message column
+    #change the upper case characters to lower case and remove any special caracters in text
+    text = []
+    for msg in range(len(df)):
+        text_lower = df.iloc[msg, 1].lower()
+        text.append(re.sub(r"[^a-zA-Z0-9]", " ", text_lower))
+    df['message'] = text
+    
     return df
 
 def save_data(df, database_filename):
