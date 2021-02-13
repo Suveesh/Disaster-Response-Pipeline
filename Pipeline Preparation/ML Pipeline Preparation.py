@@ -13,8 +13,7 @@
 
 # import libraries
 import nltk
-nltk.download('punkt')
-nltk.download('wordnet')
+nltk.download(['punkt', 'wordnet'])
 
 
 import pandas as pd
@@ -109,9 +108,9 @@ print(classification_report(y_test, y_pred, target_names=target_names))
 # In[ ]:
 
 
-parameters = 
+#parameters = 
 
-cv = GridSearchCV(pipeline, param_grid=parameters)
+#cv = GridSearchCV(pipeline, param_grid=parameters)
 
 # ### 7. Test your model
 # Show the accuracy, precision, and recall of the tuned model.  
@@ -119,12 +118,12 @@ cv = GridSearchCV(pipeline, param_grid=parameters)
 # Since this project focuses on code quality, process, and  pipelines, there is no minimum performance metric needed to pass. However, make sure to fine tune your models for accuracy, precision and recall to make your project stand out - especially for your portfolio!
 
 # In[ ]:
-cv.fit(X_train, y_train)
+#cv.fit(X_train, y_train)
 
-y_pred = cv.predict(x_train)
+#y_pred = cv.predict(x_train)
 
 
-print(classification_report(y_test, y_pred, target_names=target_names))
+#print(classification_report(y_test, y_pred, target_names=target_names))
 
 
 
