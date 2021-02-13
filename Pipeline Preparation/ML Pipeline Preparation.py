@@ -12,16 +12,22 @@
 
 
 # import libraries
+import nltk
+nltk.download('punkt')
+nltk.download('wordnet')
+
+
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine 
+from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
+from sklearn.metrics import classification_report
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
+from sklearn.multioutput import MultiOutputClassifier
 
 
 # In[ ]:
@@ -63,7 +69,7 @@ def tokenize(text):
 pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', RandomForestClassifier())
+        ('clf', MultiOutputClassifier(RandomForestClassifier(n_estimators=100, random_state=1)))
     ])
 
 
@@ -73,7 +79,7 @@ pipeline = Pipeline([
 
 # In[ ]:
 
-X_train, X_test, y_train, y_test = train_test_split(X, y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42, stratify=y)
 
 pipeline.fit(X_train, y_train)
 
@@ -126,7 +132,7 @@ print(classification_report(y_test, y_pred, target_names=target_names))
 # * try other machine learning algorithms
 # * add other features besides the TF-IDF
 
-# In[ ]:
+# In[ ]: 
 
 
 
