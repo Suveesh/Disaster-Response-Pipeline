@@ -22,7 +22,7 @@ import re
 
 
 # load messages dataset
-messages = pd.read_csv('messages.csv')
+messages = pd.read_csv('disaster_messages.csv')
 messages.head()
 
 
@@ -30,7 +30,7 @@ messages.head()
 
 
 # load categories dataset
-categories = pd.read_csv('categories.csv')
+categories = pd.read_csv('disaster_categories.csv')
 categories.head()
 
 
@@ -42,7 +42,7 @@ categories.head()
 
 
 # merge datasets
-df = messages.merge(categories, on = 'id', left_index=True, right_index=True)
+df = pd.merge(messages, categories, on="id")
 df.head()
 
 
@@ -162,8 +162,8 @@ df['message'] = text
 # In[31]:
 
 
-engine = create_engine('sqlite:///InsertDatabaseName.db')
-df.to_sql('InsertTableName', engine, index=False)
+engine = create_engine('sqlite:///DisasterResponse.db')
+df.to_sql('DisasterResponse', engine, index=False)
 
 
 # ### 9. Use this notebook to complete `etl_pipeline.py`
