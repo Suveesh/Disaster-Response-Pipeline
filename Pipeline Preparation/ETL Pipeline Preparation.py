@@ -112,7 +112,7 @@ df.head()
 
 
 # concatenate the original dataframe with the new `categories` dataframe
-df = pd.concat([df, categories], axis = 1)
+df = pd.concat([df, categories], axis=1)
 df.head()
 
 
