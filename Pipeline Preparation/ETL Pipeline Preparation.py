@@ -42,7 +42,7 @@ categories.head()
 
 
 # merge datasets
-df = pd.merge(messages, categories, on="id")
+df = pd.merge(messages, categories, on="id", how='inner')
 df.head()
 
 
@@ -93,6 +93,7 @@ for column in categories:
     
     # convert column from string to numeric
     categories[column] = categories[column].astype(int)
+
 categories.head()
 
 
@@ -104,7 +105,7 @@ categories.head()
 
 
 # drop the original categories column from `df`
-df.drop(['categories'], axis = 1, inplace = True)
+df.drop(['categories', 'original', 'genre', 'id'], axis = 1, inplace = True)
 df.head()
 
 
@@ -112,7 +113,7 @@ df.head()
 
 
 # concatenate the original dataframe with the new `categories` dataframe
-df = pd.concat([df, categories], axis=1)
+df = pd.concat([df, categories], axis=1, join="inner")
 df.head()
 
 
@@ -147,10 +148,12 @@ print(len(df[df.duplicated()]))
 # ###7. Normalize the text data in message column
 # change the upper case characters to lower case and remove any special caracters in text
 
+
+
 text = []
 for msg in range(len(df)):
     
-    text_lower = df.iloc[msg, 1].lower()
+    text_lower = df.iloc[msg, 0].lower()
     text.append(text_lower)
     
 df['message'] = text
@@ -163,7 +166,7 @@ df['message'] = text
 
 
 engine = create_engine('sqlite:///DisasterResponse.db')
-df.to_sql('DisasterResponse', engine, index=False)
+df.to_sql('DisasterResponse', engine, index=False, if_exists = 'replace')
 
 
 # ### 9. Use this notebook to complete `etl_pipeline.py`
