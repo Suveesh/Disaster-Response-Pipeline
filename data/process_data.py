@@ -24,19 +24,17 @@ def clean_data(df):
         categories[column] = categories[column].str.split('-').str.get(-1)
         # convert column from string to numeric
         categories[column] = categories[column].astype(int)
+            #set
+        for n, i in enumerate(categories[column]):
+            if i > 1:
+                categories[column][n] = 1
 
     #Drop Duplicates
-    df.drop(['categories'], axis = 1, inplace = True)
-    df = pd.concat([df, categories], axis = 1).drop_duplicates()
+    df.drop(['categories', 'original', 'genre', 'id'], axis = 1, inplace = True)
+    df = pd.concat([df, categories], axis=1, join="inner").drop_duplicates()
 
-    #Normalize the text data in message column
-    #change the upper case characters to lower case and remove any special caracters in text
-    text = []
-    for msg in range(len(df)):
-        text_lower = df.iloc[msg, 1].lower()
-        text.append(re.sub(r"[^a-zA-Z0-9]", " ", text_lower))
-    df['message'] = text
     
+
     return df
 
 def save_data(df, database_filename):
