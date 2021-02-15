@@ -27,18 +27,17 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputClassifier
+from nltk.corpus import stopwords
 
 
 # In[ ]:
 
 
 # load data from database
-engine = create_engine('sqlite:///InsertDatabaseName.db')
-df = pd.read_sql("SELECT * FROM InsertTableName", engine)
+engine = create_engine('sqlite:///DisasterResponse.db')
+df = pd.read_sql("SELECT * FROM DisasterResponse", engine)
 X = df['message']
-y = df.iloc[:,4:]
-
-
+y = df.iloc[:,1:]
 # ### 2. Write a tokenization function to process your text data
 
 # In[ ]:
@@ -48,10 +47,11 @@ def tokenize(text):
     text = X.values
 
     tokens = word_tokenize(text)
+    words = [w for w in tokens if w not in stopwords.words("english")]
     lemmatizer = WordNetLemmatizer()
 
     clean_tokens = []
-    for tok in tokens:
+    for tok in words:
         clean_tok = lemmatizer.lemmatize(tok).lower().strip()
         clean_tokens.append(clean_tok)
 
@@ -68,9 +68,17 @@ def tokenize(text):
 pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier(n_estimators=100, random_state=1)))
+        ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
 
+parameters = {
+        'vect__ngram_range': ((1, 1), (1, 2)),
+        'vect__max_df': (0.5, 0.75, 1.0),
+        'vect__max_features': (None, 5000, 10000),
+        'tfidf__use_idf': (True, False),
+        'clf__n_estimators': [50, 100, 200],
+        'clf__min_samples_split': [2, 3, 4],
+    }
 
 # ### 4. Train pipeline
 # - Split data into train and test sets
@@ -78,15 +86,10 @@ pipeline = Pipeline([
 
 # In[ ]:
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42, stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
 
 pipeline.fit(X_train, y_train)
-
-y_pred = pipeline.predict(X_test)
-
-
-
-
 
 # ### 5. Test your model
 # Report the f1 score, precision and recall for each output category of the dataset. You can do this by iterating through the columns and calling sklearn's `classification_report` on each.
