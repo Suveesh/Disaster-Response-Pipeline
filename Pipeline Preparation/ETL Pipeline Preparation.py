@@ -90,17 +90,30 @@ categories.head()
 for column in categories:
     # set each value to be the last character of the string
     categories[column] = categories[column].str.split('-').str.get(-1)
-    
-    # convert column from string to numeric
+    # convert column from string to numericn in ca
     categories[column] = categories[column].astype(int)
+    #set
+    for n, i in enumerate(categories[column]):
+        if i > 1:
+            categories[column][n] = 1
+
 
 categories.head()
+
+test_col = categories.columns
+
+
+for col in test_col:
+    print(col) 
+    print(categories[col].unique())
 
 
 # ### 5. Replace `categories` column in `df` with new category columns.
 # - Drop the categories column from the df dataframe since it is no longer needed.
 # - Concatenate df and categories data frames.
 
+   # remove columns with only one value
+#categories.head()
 # In[10]:
 
 
@@ -166,7 +179,7 @@ df['message'] = text
 
 
 engine = create_engine('sqlite:///DisasterResponse.db')
-df.to_sql('DisasterResponse', engine, index=False, if_exists = 'replace')
+df.to_sql('Disaster', engine, index=False, if_exists = 'replace')
 
 
 # ### 9. Use this notebook to complete `etl_pipeline.py`
