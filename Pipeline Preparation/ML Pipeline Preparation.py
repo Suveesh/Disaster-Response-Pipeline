@@ -13,11 +13,13 @@
 
 # import libraries
 import nltk
-nltk.download(['punkt', 'wordnet'])
+nltk.download('punkt')
+nltk.download('wordnet')
 
 
 import pandas as pd
 import numpy as np
+import re
 from sqlalchemy import create_engine
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -27,7 +29,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputClassifier
-from nltk.corpus import stopwords
+from sklearn.metrics import confusion_matrix
+from nltk.stem.porter import PorterStemmer
 
 
 # In[ ]:
@@ -35,26 +38,38 @@ from nltk.corpus import stopwords
 
 # load data from database
 engine = create_engine('sqlite:///DisasterResponse.db')
-df = pd.read_sql("SELECT * FROM DisasterResponse", engine)
+df = pd.read_sql("SELECT * FROM Disaster", engine)
 X = df['message']
 y = df.iloc[:,1:]
+
 # ### 2. Write a tokenization function to process your text data
 
 # In[ ]:
 
 
 def tokenize(text):
-    text = X.values
-
+    # Remove punctuation
+    text = re.sub(r'[^a-zA-Z0-9]', ' ',text)
+    
+    # Tokenize text
     tokens = word_tokenize(text)
-    words = [w for w in tokens if w not in stopwords.words("english")]
     lemmatizer = WordNetLemmatizer()
 
-    clean_tokens = []
-    for tok in words:
-        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
-        clean_tokens.append(clean_tok)
 
+    # Remove stop words
+    # tokens = [word for word in tokens if word not in stopwords.words('english')]
+    
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok, pos='n').strip()
+        #I passed in the output from the previous noun lemmatization step. This way of chaining procedures is very common.
+        clean_tok = lemmatizer.lemmatize(clean_tok, pos='v')
+        #It is common to apply both, lemmatization first, and then stemming.
+        clean_tok =PorterStemmer().stem(clean_tok)
+        
+        clean_tokens.append(clean_tok)
+    
+    
     return clean_tokens
     
 
