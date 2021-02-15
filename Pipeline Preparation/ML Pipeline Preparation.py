@@ -80,6 +80,7 @@ def tokenize(text):
 # In[ ]:
 
 
+
 pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
