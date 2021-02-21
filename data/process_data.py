@@ -1,17 +1,18 @@
+# In[1]:
 import sys
-import python as pd
+import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
 import re
+from sqlalchemy import create_engine
 
-
+# In[2]:
 def load_data(messages_filepath, categories_filepath):
-    messages = pd.read_csv('messages_filepath')
-    categories = pd.read_csv('categories_filepath')
-    df = messages.merge(categories, on = 'id', left_index=True, right_index=True)
+    messages_df = pd.read_csv('messages_filepath')
+    categories_df = pd.read_csv('categories_filepath')
+    df = messages_df.merge(categories_df, on = 'id', left_index=True, right_index=True)
     return df
 
-
+# In[3]:
 def clean_data(df):
 
     categories = df['categories'].str.split(';', expand = True)
@@ -30,18 +31,18 @@ def clean_data(df):
                 categories[column][n] = 1
 
     #Drop Duplicates
-    df.drop(['categories', 'original', 'genre', 'id'], axis = 1, inplace = True)
+    df.drop(['categories'], axis = 1, inplace = True)
     df = pd.concat([df, categories], axis=1, join="inner").drop_duplicates()
 
     
 
     return df
-
+# In[4]:
 def save_data(df, database_filename):
-    engine = create_engine('sqlite:///InsertDatabaseName.db')
+    engine = create_engine('sqlite:///DisasterResponse.db')
     df.to_sql('database_filename', engine, index=False)
 
-
+# In[5]:
 def main():
     if len(sys.argv) == 4:
 
@@ -67,6 +68,7 @@ def main():
               'disaster_messages.csv disaster_categories.csv '\
               'DisasterResponse.db')
 
-
-#if __name__ == '__main__':
-    #main()
+# In[6]:
+if __name__ == '__main__':
+    main()
+# %%
