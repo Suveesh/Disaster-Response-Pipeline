@@ -39,8 +39,8 @@ def clean_data(df):
     return df
 # In[4]:
 def save_data(df, database_filename):
-    engine = create_engine('sqlite:///DisasterResponse.db')
-    df.to_sql('database_filename', engine, index=False)
+    engine = create_engine('sqlite:///'+ database_filename)
+    df.to_sql('final_table', engine, index=False)
 
 # In[5]:
 def main():
