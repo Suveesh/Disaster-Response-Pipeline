@@ -9,7 +9,7 @@ from sqlalchemy import create_engine
 def load_data(messages_filepath, categories_filepath):
     messages_df = pd.read_csv('messages_filepath')
     categories_df = pd.read_csv('categories_filepath')
-    df = messages_df.merge(categories_df, on = 'id', left_index=True, right_index=True)
+    df = pd.merge(messages_df, categories_df, on="id", how='inner')
     return df
 
 # In[3]:
