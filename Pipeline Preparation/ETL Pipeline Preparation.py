@@ -22,16 +22,16 @@ from sqlalchemy import create_engine
 
 
 # load messages dataset
-messages_df = pd.read_csv('disaster_messages.csv')
-messages_df.head()
+messages = pd.read_csv('messages.csv')
+messages.head()
 
 
 # In[3]:
 
 
 # load categories dataset
-categories_df = pd.read_csv('disaster_categories.csv')
-categories_df.head()
+categories = pd.read_csv('categories.csv')
+categories.head()
 
 
 # ### 2. Merge datasets.
@@ -42,7 +42,7 @@ categories_df.head()
 
 
 # merge datasets
-df = pd.merge(messages_df, categories_df, on="id", how='inner')
+df = pd.merge(messages, categories, on="id", how='inner')
 df.head()
 
 
@@ -55,7 +55,7 @@ df.head()
 
 
 # create a dataframe of the 36 individual category columns
-categories = categories_df['categories'].str.split(';', expand = True)
+categories = categories['categories'].str.split(';', expand = True)
 categories.head()
 
 
@@ -180,7 +180,7 @@ df.head()
 # In[17]:
 
 
-engine = create_engine('sqlite:///DisasterResponse.db')
+engine = create_engine('sqlite:///Disaster.db')
 df.to_sql('final', engine, index=False, if_exists = 'replace')
 
 
