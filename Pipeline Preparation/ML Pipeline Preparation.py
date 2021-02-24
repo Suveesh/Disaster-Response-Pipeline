@@ -8,10 +8,10 @@
 # - Load dataset from database with [`read_sql_table`](https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_sql_table.html)
 # - Define feature and target variables X and Y
 
-# In[ ]:
+# In[1]:
 
 
-# import libraries test
+# import libraries
 import nltk
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -31,20 +31,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.metrics import confusion_matrix
 from nltk.stem.porter import PorterStemmer
+from sklearn.model_selection import GridSearchCV
+import pickle
 
 
-# In[ ]:
+# In[2]:
 
 
 # load data from database
 engine = create_engine('sqlite:///DisasterResponse.db')
-df = pd.read_sql("SELECT * FROM Disaster", engine)
+df = pd.read_sql("SELECT * FROM DisasterResponse", engine)
 X = df['message']
-y = df.iloc[:,1:]
+y = df.iloc[:,4:]
+
 
 # ### 2. Write a tokenization function to process your text data
 
-# In[ ]:
+# In[3]:
 
 
 def tokenize(text):
@@ -64,21 +67,17 @@ def tokenize(text):
         clean_tok = lemmatizer.lemmatize(tok, pos='n').strip()
         #I passed in the output from the previous noun lemmatization step. This way of chaining procedures is very common.
         clean_tok = lemmatizer.lemmatize(clean_tok, pos='v')
-        #It is common to apply both, lemmatization first, and then stemming.
-        clean_tok =PorterStemmer().stem(clean_tok)
         
         clean_tokens.append(clean_tok)
     
     
     return clean_tokens
-    
 
 
 # ### 3. Build a machine learning pipeline
 # This machine pipeline should take in the `message` column as input and output classification results on the other 36 categories in the dataset. You may find the [MultiOutputClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.multioutput.MultiOutputClassifier.html) helpful for predicting multiple target variables.
 
-# In[ ]:
-
+# In[4]:
 
 
 pipeline = Pipeline([
@@ -87,81 +86,103 @@ pipeline = Pipeline([
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
 
-parameters = {
-        'vect__ngram_range': ((1, 1), (1, 2)),
-        'vect__max_df': (0.5, 0.75, 1.0),
-        'vect__max_features': (None, 5000, 10000),
-        'tfidf__use_idf': (True, False),
-        'clf__n_estimators': [50, 100, 200],
-        'clf__min_samples_split': [2, 3, 4],
-    }
 
 # ### 4. Train pipeline
 # - Split data into train and test sets
 # - Train pipeline
 
-# In[ ]:
+# In[5]:
+
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
-
-
 pipeline.fit(X_train, y_train)
+
+
+# In[6]:
+
+
+y_pred = pipeline.predict(X_test)
+y_pred
+
 
 # ### 5. Test your model
 # Report the f1 score, precision and recall for each output category of the dataset. You can do this by iterating through the columns and calling sklearn's `classification_report` on each.
 
-# In[ ]:
+# In[7]:
+
 
 target_names = y.columns
 print(classification_report(y_test, y_pred, target_names=target_names))
 
 
-
-
-
-
-
 # ### 6. Improve your model
 # Use grid search to find better parameters. 
 
-# In[ ]:
+# In[8]:
 
 
-#parameters = 
+pipeline.get_params()
 
-#cv = GridSearchCV(pipeline, param_grid=parameters)
+
+# In[9]:
+
+
+parameters = {'tfidf__norm': ['l1','l2'],
+              'clf__estimator__criterion': ["gini", "entropy"]
+    
+             }
+
+cv = GridSearchCV(pipeline, param_grid=parameters)
+
 
 # ### 7. Test your model
 # Show the accuracy, precision, and recall of the tuned model.  
 # 
 # Since this project focuses on code quality, process, and  pipelines, there is no minimum performance metric needed to pass. However, make sure to fine tune your models for accuracy, precision and recall to make your project stand out - especially for your portfolio!
 
-# In[ ]:
-#cv.fit(X_train, y_train)
-
-#y_pred = cv.predict(x_train)
+# In[10]:
 
 
-#print(classification_report(y_test, y_pred, target_names=target_names))
+cv.fit(X_train, y_train)
 
+
+# In[11]:
+
+
+y_pred = cv.predict(X_test)
 
 
 # ### 8. Try improving your model further. Here are a few ideas:
 # * try other machine learning algorithms
 # * add other features besides the TF-IDF
 
-# In[ ]: 
+# In[12]:
 
 
-
+target_names = y.columns
+print(classification_report(y_test, y_pred, target_names=target_names))
 
 
 # ### 9. Export your model as a pickle file
 
-# In[ ]:
+# In[13]:
+
+
+with open('MLclassifier.pkl', 'wb') as file:
+    pickle.dump(cv, file)
+
+
+# In[14]:
 
 
 
+cv.grid_scores_
+
+
+# In[15]:
+
+
+cv.best_estimator_
 
 
 # ### 10. Use this notebook to complete `train.py`
