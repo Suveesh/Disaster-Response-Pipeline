@@ -39,7 +39,7 @@ The project has three componants which are:
 
 - ETL Pipeline: process_data.py file contain the script to create ETL pipline which:
 
-[x]Loads the messages and categories datasets
+[x]Loads the messages and categories datasets.
 [x]Merges the two datasets
 [x]Cleans the data
 [x]Stores it in a SQLite database
