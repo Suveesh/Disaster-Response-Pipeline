@@ -37,7 +37,7 @@ The goal of the project is to classify the disaster messages into categories. In
 
 The project has three componants which are:
 
-#### ETL Pipeline: 'process_data.py' file contain the script to create ETL pipline which:
+#### ETL Pipeline: ['process_data.py'](https://github.com/Suveesh/Disaster-Response-Pipeline/blob/main/data/process_data.py) file contain the script to create ETL pipline which:
 
 - [x] Loads the messages and categories datasets.
 - [x] Merges the two datasets
