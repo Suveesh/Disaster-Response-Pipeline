@@ -11,29 +11,29 @@
 
 [Instructions](#Instructions)
 
-### Installation
+### Installation<a name="Installation"></a>
 
 All libraries are available in Anaconda distribution of Python. The used libraries are:
 
-    pandas
-    re
-    sys
-    json
-    sklearn
-    nltk
-    sqlalchemy
-    pickle
-    Flask
-    plotly
-    sqlite3
+    - pandas
+    - re
+    - sys
+    - json
+    - sklearn
+    - nltk
+    - sqlalchemy
+    - pickle
+    - Flask
+    - plotly
+    - sqlite3
 
 The code should run using Python versions 3.*.
 
-### Project Motivation
+### Project Motivation<a name="Motivation"></a>
 
 The goal of the project is to classify the disaster messages into categories. In this project, I analyzed disaster data from Figure Eight to build a model for an API that classifies disaster messages. Through a web app, the user can input a new message and get classification results in several categories. The web app also display visualizations of the data.
 
-### Project Descriptions
+### Project Descriptions<a name="Description"></a>
 
 The project has three componants which are:
 
@@ -77,7 +77,7 @@ The files structure is arranged as below:
 	- \models
 		- train_classifier.py: classification code
 
-### Instructions
+### Instructions<a name="Instruction"></a>
 
 To execute the app follow the instructions:
 
