@@ -3,11 +3,11 @@
 
 [Installation](#Installation)
 
-[Project Motivation] (#Project Motivation)
+[Project Motivation](#Motivation)
 
-[Project Descriptions] (#Project Descriptions)
+[Project Descriptions](#Descriptions)
 
-[Files Descriptions] (#Files Description)
+[Files Descriptions](#Description)
 
 [Instructions](#Instructions)
 
@@ -77,7 +77,7 @@ The files structure is arranged as below:
 	- \models
 		- train_classifier.py: classification code
 
-Instructions
+### Instructions
 
 To execute the app follow the instructions:
 
