@@ -37,14 +37,14 @@ The goal of the project is to classify the disaster messages into categories. In
 
 The project has three componants which are:
 
-#### ETL Pipeline: process_data.py file contain the script to create ETL pipline which:
+#### ETL Pipeline: 'process_data.py' file contain the script to create ETL pipline which:
 
 - [x] Loads the messages and categories datasets.
 - [x] Merges the two datasets
 - [x] Cleans the data
 - [x] Stores it in a SQLite database
 
-#### ML Pipeline: train_classifier.py file contain the script to create ML pipline which:
+#### ML Pipeline: 'train_classifier.py' file contain the script to create ML pipline which:
 
 - [x] Loads data from the SQLite database
 - [x] Splits the dataset into training and test sets
@@ -53,12 +53,13 @@ The project has three componants which are:
 - [x] Outputs results on the test set
 - [x] Exports the final model as a pickle file
 
-    Flask Web App: the web app enables the user to enter a disaster message, and then view the categories of the message.
+#### Flask Web App: the web app enables the user to enter a disaster message, and then view the categories of the message.
 
-The web app also contains some visualizations that describe the data.
-Files Descriptions
+- [x] The web app also contains some visualizations that describe the data.
 
-The files structure is arranged as below:
+### Files Descriptions
+
+#### The files structure is arranged as below:
 
 - README.md: read me file
 - ETL Pipeline Preparation.ipynb: contains ETL pipeline preparation code
