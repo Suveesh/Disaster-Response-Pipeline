@@ -40,7 +40,7 @@ def clean_data(df):
 # In[4]:
 def save_data(df, database_filename):
     engine = create_engine('sqlite:///'+ database_filename)
-    df.to_sql('final_table', engine, index=False)
+    df.to_sql('final', engine, index=False)
 
 # In[5]:
 def main():
