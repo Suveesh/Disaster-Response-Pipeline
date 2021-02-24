@@ -15,17 +15,17 @@
 
 All libraries are available in Anaconda distribution of Python. The used libraries are:
 
-    - pandas
-    - re
-    - sys
-    - json
-    - sklearn
-    - nltk
-    - sqlalchemy
-    - pickle
-    - Flask
-    - plotly
-    - sqlite3
+- pandas
+- re
+- sys
+- json
+- sklearn
+- nltk
+- sqlalchemy
+- pickle
+- Flask
+- plotly
+- sqlite3
 
 The code should run using Python versions 3.*.
 
