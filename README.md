@@ -1,11 +1,11 @@
 ## Disaster Response Pipelines
 ### Table of Contents
 
-    [Installation](#Installation)
-    [Project Motivation](#Project Motivation)
-    [Project Descriptions](#Project Descriptions)
-    [Files Descriptions](#Files Description)
-    [Instructions](#Instructions)
+[Installation](#Installation)
+[Project Motivation](#Project Motivation)
+[Project Descriptions](#Project Descriptions)
+[Files Descriptions](#Files Description)
+[Instructions](#Instructions)
 
 ### Installation
 
