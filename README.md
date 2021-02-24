@@ -3,11 +3,11 @@
 
 [Installation](#Installation)
 
-[Project Motivation](#Project Motivation)
+[Project Motivation] (#Project Motivation)
 
-[Project Descriptions](#Project Descriptions)
+[Project Descriptions] (#Project Descriptions)
 
-[Files Descriptions](#Files Description)
+[Files Descriptions] (#Files Description)
 
 [Instructions](#Instructions)
 
