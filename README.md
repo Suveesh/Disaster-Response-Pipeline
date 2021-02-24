@@ -1,13 +1,13 @@
-# Disaster Response Pipelines
-## Table of Contents
+## Disaster Response Pipelines
+### Table of Contents
 
-    Installation
-    Project Motivation
-    Project Descriptions
-    Files Descriptions
-    Instructions
+    [Installation](#Installation)
+    [Project Motivation](#Project Motivation)
+    [Project Descriptions](#Project Descriptions)
+    [Files Descriptions](#Files Description)
+    [Instructions](#Instructions)
 
-Installation
+### Installation
 
 All libraries are available in Anaconda distribution of Python. The used libraries are:
 
