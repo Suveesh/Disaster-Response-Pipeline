@@ -1,5 +1,5 @@
-Disaster Response Pipelines
-Table of Contents
+# Disaster Response Pipelines
+## Table of Contents
 
     Installation
     Project Motivation
