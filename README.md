@@ -44,14 +44,14 @@ The project has three componants which are:
 - [x] Cleans the data
 - [x] Stores it in a SQLite database
 
-    ML Pipeline: train_classifier.py file contain the script to create ML pipline which:
+#### ML Pipeline: train_classifier.py file contain the script to create ML pipline which:
 
-    Loads data from the SQLite database
-    Splits the dataset into training and test sets
-    Builds a text processing and machine learning pipeline
-    Trains and tunes a model using GridSearchCV
-    Outputs results on the test set
-    Exports the final model as a pickle file
+- [x] Loads data from the SQLite database
+- [x] Splits the dataset into training and test sets
+- [x] Builds a text processing and machine learning pipeline
+- [x] Trains and tunes a model using GridSearchCV
+- [x] Outputs results on the test set
+- [x] Exports the final model as a pickle file
 
     Flask Web App: the web app enables the user to enter a disaster message, and then view the categories of the message.
 
