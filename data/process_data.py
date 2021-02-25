@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 # In[2]:
 def load_data(messages_filepath, categories_filepath):
 
-    ''''
+    '''
 
     Function to load Messages and Categories Data set from the csv file and merge  
     into a single data frame named df variable
@@ -18,7 +18,7 @@ def load_data(messages_filepath, categories_filepath):
     Input: messages_filepath, categories_filepath
     Output: Merged dataframe of messages and categories dataframe
     
-    ''''
+    '''
    #Read csv file and load in the variable as dataframe
 
     messages_df = pd.read_csv(messages_filepath)
@@ -32,7 +32,7 @@ def load_data(messages_filepath, categories_filepath):
 # In[3]:
 def clean_data(df):
 
-    ''''
+    '''
 
     Function to clean the dataframe inorder to be compatible for the machinelearning application.
 
@@ -51,7 +51,7 @@ def clean_data(df):
 
 
 
-    ''''
+    '''
 
 
 #Split the categories column in df dataframe and delimit the columns with ';'
