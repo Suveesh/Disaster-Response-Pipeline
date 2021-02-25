@@ -10,10 +10,13 @@ def load_data(messages_filepath, categories_filepath):
 
     ''''
 
-    Load Messages and Categories Data set from the csv file and merge  
+    Function to load Messages and Categories Data set from the csv file and merge  
     into a single data frame named df variable
 
-    df is merged on id column in both messages and categories data frame
+    return a dataframe is merged on id column in both messages and categories data frame
+
+    Input: messages_filepath, categories_filepath
+    Output: Merged dataframe of messages and categories dataframe
     
     ''''
    #Read csv file and load in the variable as dataframe
@@ -31,7 +34,7 @@ def clean_data(df):
 
     ''''
 
-    Clean data dataframe inorder to be compatible for the machinelearning application.
+    Function to clean the dataframe inorder to be compatible for the machinelearning application.
 
     Split the categories column with delimit ';' and
     Convert the first row values in categories dataframe to the column headers. 
@@ -42,6 +45,11 @@ def clean_data(df):
 
     Remove the existing categories column from the df dataframe and concat the formatted 
     categories dataframe with df dataframe.   
+
+    Input: df
+    Output: cleaned and formatted dataframe
+
+
 
     ''''
 
@@ -74,7 +82,10 @@ def clean_data(df):
 def save_data(df, database_filename):
 
     '''
-    Save the cleaned dataframe into a sql database with file name 'final'
+    Function to save the cleaned dataframe into a sql database with file name 'final'
+
+    Input: df, database_filename
+    Output: SQL Database 
 
     '''
     engine = create_engine('sqlite:///'+ database_filename)
