@@ -24,13 +24,30 @@ import pickle
 
 # In[2]:
 def load_data(database_filepath):
-    engine = create_engine('sqlite:///'+ database_filename)
+    '''
+    Function to retreive data from sql database (database_filepath) and split the dataframe into X and y variable
+
+    Input: Databased filepath
+    Output: Returns the Features X & target y along with target columns names catgeory_names
+
+    '''
+    engine = create_engine('sqlite:///'+ database_filepath)
     df = pd.read_sql("SELECT * FROM DisasterResponse", engine)
+
     X = df['message']
     y = df.iloc[:,4:]
 # In[3]:
 
 def tokenize(text):
+'''
+Function to clean the text data  and apply tokenize and lemmatizer function
+Return the clean tokens
+
+Input: text
+output: cleaned tokenized text as a list object
+
+'''
+
     # Remove punctuation
     text = re.sub(r'[^a-zA-Z0-9]', ' ',text)
     
@@ -55,12 +72,22 @@ def tokenize(text):
 # In[4]:
 
 def build_model():
+'''
+    Function to build a model, create pipeline, hypertuning as well as gridsearchcv
+
+    Input: N/A
+    Output: Returns the model
+
+'''
+
+
 
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
+
 
     parameters = {'tfidf__norm': ['l1','l2'],
               'clf__estimator__criterion': ["gini", "entropy"]    
@@ -76,6 +103,14 @@ def build_model():
 
 # In[5]:
 def evaluate_model(model, X_test, Y_test, category_names):
+
+    '''
+    Function to evaluate a model and return the classificatio and accurancy score.
+
+    Inputs: Model, X_test, y_test, Catgegory_names
+    Outputs: Prints the Classification report & Accuracy Score
+
+    '''
 
     y_pred = model.predict(X_test)
     report= classification_report(Y_test,y_pred, target_names=category_names)
@@ -97,6 +132,14 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+
+    '''
+    Function to save the model as pickle file in the directory
+
+    Input: model and the file path to save the model
+    Output: save the model as pickle file in the give filepath 
+
+    '''
 
     with open('model_filepath', 'wb') as file:
         pickle.dump(model, file)
