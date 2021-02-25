@@ -24,6 +24,7 @@ import pickle
 
 # In[2]:
 def load_data(database_filepath):
+
     '''
     Function to retreive data from sql database (database_filepath) and split the dataframe into X and y variable
 
@@ -39,14 +40,13 @@ def load_data(database_filepath):
 # In[3]:
 
 def tokenize(text):
-'''
-Function to clean the text data  and apply tokenize and lemmatizer function
-Return the clean tokens
+    '''
+    Function to clean the text data  and apply tokenize and lemmatizer function
+    Return the clean tokens
 
-Input: text
-output: cleaned tokenized text as a list object
-
-'''
+    Input: text
+    Output: cleaned tokenized text as a list object
+    '''
 
     # Remove punctuation
     text = re.sub(r'[^a-zA-Z0-9]', ' ',text)
@@ -72,13 +72,12 @@ output: cleaned tokenized text as a list object
 # In[4]:
 
 def build_model():
-'''
+    '''
     Function to build a model, create pipeline, hypertuning as well as gridsearchcv
 
     Input: N/A
     Output: Returns the model
-
-'''
+    '''
 
 
 
