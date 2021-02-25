@@ -16,6 +16,7 @@ def load_data(messages_filepath, categories_filepath):
     df is merged on id column in both messages and categories data frame
     
     ''''
+   #Read csv file and load in the variable as dataframe
 
     messages_df = pd.read_csv(messages_filepath)
     categories_df = pd.read_csv(categories_filepath)
@@ -82,7 +83,7 @@ def save_data(df, database_filename):
 # In[5]:
 def main():
 
-    
+
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
