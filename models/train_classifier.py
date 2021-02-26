@@ -121,11 +121,11 @@ def evaluate_model(model, X_test, Y_test, category_names):
     report= classification_report(Y_pred,Y_test, target_names=category_names)
 
 
-    #temp=[]
-    #for item in report.split("\n"):
-     #   temp.append(item.strip().split('     '))
-    #clean_list=[ele for ele in temp if ele != ['']]
-    #report_df=pd.DataFrame(clean_list[1:],columns=['group','precision','recall', 'f1-score','support'])
+    temp=[]
+    for item in report.split("\n"):
+        temp.append(item.strip().split('     '))
+    clean_list=[ele for ele in temp if ele != ['']]
+    report_df=pd.DataFrame(clean_list[1:],columns=['group','precision','recall', 'f1-score','support'])
 
 
     return report
