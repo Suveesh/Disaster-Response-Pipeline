@@ -2,6 +2,9 @@
 
 import sys
 import nltk
+import warnings
+warnings.filterwarnings('ignore')  # "error", "ignore", "always", "default", "module" or "once"
+
 nltk.download('punkt')
 nltk.download('wordnet')
 
@@ -33,10 +36,13 @@ def load_data(database_filepath):
 
     '''
     engine = create_engine('sqlite:///'+ database_filepath)
-    df = pd.read_sql("SELECT * FROM DisasterResponse", engine)
+    df = pd.read_sql("SELECT * FROM final", engine)
 
     X = df['message']
-    y = df.iloc[:,4:]
+    Y = df.iloc[:,4:]
+    category_names = Y.columns.values
+    
+    return  X, Y, category_names
 # In[3]:
 
 def tokenize(text):
@@ -111,18 +117,18 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
     '''
 
-    y_pred = model.predict(X_test)
-    report= classification_report(Y_test,y_pred, target_names=category_names)
+    Y_pred = model.predict(X_test)
+    report= classification_report(Y_pred,Y_test, target_names=category_names)
 
 
-    temp=[]
-    for item in report.split("\n"):
-        temp.append(item.strip().split('     '))
-    clean_list=[ele for ele in temp if ele != ['']]
-    report_df=pd.DataFrame(clean_list[1:],columns=['group','precision','recall', 'f1-score','support'])
+    #temp=[]
+    #for item in report.split("\n"):
+     #   temp.append(item.strip().split('     '))
+    #clean_list=[ele for ele in temp if ele != ['']]
+    #report_df=pd.DataFrame(clean_list[1:],columns=['group','precision','recall', 'f1-score','support'])
 
 
-    return report_df
+    return report
     
 
 
@@ -140,7 +146,7 @@ def save_model(model, model_filepath):
 
     '''
 
-    with open('model_filepath', 'wb') as file:
+    with open(model_filepath, 'wb') as file:
         pickle.dump(model, file)
 
 # In[7]:
